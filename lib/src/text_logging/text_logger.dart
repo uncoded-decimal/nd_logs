@@ -60,7 +60,6 @@ class TextLogger extends LogWriter {
     if (recordHTML) {
       _fileSink!.writeln(HTMLModifier.htmlFileFooters);
     }
-    await _fileSink!.flush();
   }
 
   @override
