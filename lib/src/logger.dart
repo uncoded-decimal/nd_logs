@@ -4,9 +4,17 @@ class _NDLogger {
   final receivePort = ReceivePort();
   SendPort? _sendPort;
 
+  final _webLogger = WebLogger();
+
   Future<void> initialiseLogger({
     bool recordHTML = false,
   }) async {
+    if (kIsWeb) {
+      if (recordHTML) {
+        _webLogger.openLogFile("abra-kadabra.${recordHTML ? "html" : "txt"}");
+      }
+      return;
+    }
     final logFilePath = await getLogFilePath(recordHTML: recordHTML);
     await Isolate.spawn(_isolateMethod, [receivePort.sendPort, logFilePath]);
     _sendPort = (await receivePort.first) as SendPort;
@@ -16,6 +24,9 @@ class _NDLogger {
   Future<String> getLogFilePath({
     bool recordHTML = false,
   }) async {
+    if (kIsWeb) {
+      return "";
+    }
     final directoryPath = (await getApplicationDocumentsDirectory()).path;
     return "$directoryPath/Logs/log.${recordHTML ? "html" : "txt"}";
   }
@@ -27,6 +38,17 @@ class _NDLogger {
     Map<String, String> params,
     DateFormat dateFormat,
   ) async {
+    if (kIsWeb) {
+      await _webLogger.writeToLogFile(
+        logFilePath: "doom.${recordHTML ? "html" : "txt"}",
+        recordHTML: recordHTML,
+        exported: exported,
+        text: text,
+        timestamp: dateFormat.format(DateTime.now()),
+        logData: params,
+      );
+      return;
+    }
     if (_sendPort == null) {
       debugPrint("Unable to setup NDLogger");
       return;
@@ -41,10 +63,18 @@ class _NDLogger {
   }
 
   Future<void> performExportOperations(bool recordHTML) async {
+    if (kIsWeb) {
+      await _webLogger.closeLogFile(recordHTML);
+      return;
+    }
     _sendPort?.send(["export_logs", {}, recordHTML]);
   }
 
   Future<void> clearLogs() async {
+    if (kIsWeb) {
+      await _webLogger.deleteLogFile("boom");
+      return;
+    }
     _sendPort?.send(["clear_logs", {}]);
   }
 

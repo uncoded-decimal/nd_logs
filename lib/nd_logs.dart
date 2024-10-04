@@ -3,7 +3,9 @@ library nd_logs;
 import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import 'package:nd_logs/base/log_writer.dart';
 import 'package:nd_logs/src/text_logging/text_logger.dart';
+import 'package:nd_logs/src/web_logging/web_logger.dart';
 import 'package:path_provider/path_provider.dart';
 
 part "src/logger.dart";

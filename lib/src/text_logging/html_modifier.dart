@@ -34,9 +34,9 @@ class HTMLModifier {
 <div>    
     <table>
         <tr style="background-color: #f2f2f2;">
-            <td style="flex-grow: 1;">$timestamp</td>
-            <td style="flex-grow: 7;">$text</td>
-            <td style="flex-grow: 2;">
+            <td style="width: 10%; text-align: left;">$timestamp</td>
+            <td style="width: 60%; text-align: left;">$text</td>
+            <td style="width: 30%; text-align: left;">
               <ul>
               ${logData.entries.map((e) => '''<li>${e.key}: ${e.value}</li>''').join("")}
               </ul>

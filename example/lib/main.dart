@@ -6,7 +6,7 @@ import 'package:nd_logs/nd_logs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NDLogs.setupLogger(recordHTML: false);
+  await NDLogs.setupLogger(recordHTML: true);
   runApp(const MyApp());
 }
 
