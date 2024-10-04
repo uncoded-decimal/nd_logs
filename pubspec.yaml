@@ -23,4 +23,4 @@ flutter:
 topics:
   - logging
   - logs
-  - user_log
+  - user-logs
