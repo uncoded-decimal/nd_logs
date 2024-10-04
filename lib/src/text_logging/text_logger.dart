@@ -41,23 +41,25 @@ class TextLogger extends LogWriter {
       await openLogFile(logFilePath);
       return;
     }
-    String log = logData.toString();
+    String log = "$timestamp  $text  ${logData.toString()}";
     if (recordHTML) {
       log = HTMLModifier.convertMapToDiv(
         timestamp: timestamp,
         text: text,
         logData: logData,
       );
-    }
-    if (exported) {
-      _fileSink!.writeln(HTMLModifier.htmlFileHeaders);
+      if (exported) {
+        _fileSink!.writeln(HTMLModifier.htmlFileHeaders);
+      }
     }
     _fileSink!.writeln(log);
   }
 
   @override
-  Future<void> closeLogFile() async {
-    _fileSink!.writeln(HTMLModifier.htmlFileFooters);
+  Future<void> closeLogFile(bool recordHTML) async {
+    if (recordHTML) {
+      _fileSink!.writeln(HTMLModifier.htmlFileFooters);
+    }
     await _fileSink!.flush();
     await _fileSink!.close();
   }

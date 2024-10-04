@@ -40,8 +40,8 @@ class _NDLogger {
     ]);
   }
 
-  Future<void> performExportOperations() async {
-    _sendPort?.send(["export_logs", {}]);
+  Future<void> performExportOperations(bool recordHTML) async {
+    _sendPort?.send(["export_logs", {}, recordHTML]);
   }
 
   Future<void> clearLogs() async {
@@ -59,7 +59,8 @@ class _NDLogger {
       port.listen((data) async {
         final message = data[0];
         if (message == "export_logs") {
-          await logger.closeLogFile();
+          final recordHTML = (data[2] as bool?) ?? false;
+          await logger.closeLogFile(recordHTML);
         } else if (message == "clear_logs") {
           await logger.deleteLogFile(logFilePath);
           await logger.openLogFile(logFilePath);

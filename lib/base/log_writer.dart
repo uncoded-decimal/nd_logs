@@ -9,6 +9,6 @@ abstract class LogWriter {
     required String timestamp,
     required Map<String, String> logData,
   });
-  Future<void> closeLogFile();
+  Future<void> closeLogFile(bool recordHTML);
   Future<void> deleteLogFile(String filePath);
 }

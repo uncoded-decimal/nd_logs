@@ -43,7 +43,7 @@ class NDLogs {
 
   /// returns the log file path
   static Future<String> exportLogFile() async {
-    await _logger.performExportOperations();
+    await _logger.performExportOperations(_recordingHTML);
     _exported = true;
     return await _logger.getLogFilePath(
       recordHTML: _recordingHTML,
