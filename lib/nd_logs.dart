@@ -1,9 +1,9 @@
 library nd_logs;
 
+import 'dart:developer';
 import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:nd_logs/base/log_writer.dart';
 import 'package:nd_logs/src/text_logging/text_logger.dart';
 import 'package:nd_logs/src/web_logging/web_logger.dart';
 import 'package:path_provider/path_provider.dart';
@@ -29,6 +29,10 @@ class NDLogs {
     );
   }
 
+  /// - [text] is what the statement log file will record.
+  /// - [paramsTracking] are the app params you wish to track against any event.
+  /// This may include tracking user id's, user location as it changes, and any
+  /// other data as desired.
   static Future<void> logThis(
     String text, {
     Map<String, String>? paramsTracking,
@@ -43,7 +47,9 @@ class NDLogs {
     _exported = false;
   }
 
-  /// returns the log file path
+  /// returns the log file path.
+  ///
+  /// For Web, returns an empty string and starts a log file download.
   static Future<String> exportLogFile() async {
     await _logger.performExportOperations(_recordingHTML);
     _exported = true;

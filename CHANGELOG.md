@@ -1,3 +1,5 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+- Android and iOS Support tested
+- Web Support added
+- Basic Text and HTML format support added

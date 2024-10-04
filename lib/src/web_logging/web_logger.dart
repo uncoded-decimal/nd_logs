@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_web_libraries_in_flutter
 
+import 'dart:developer';
+
 import 'package:nd_logs/base/log_writer.dart';
 import 'package:nd_logs/src/text_logging/html_modifier.dart';
 import 'dart:html' as html;
@@ -43,16 +45,19 @@ class WebLogger implements LogWriter {
     required String timestamp,
     required Map<String, String> logData,
   }) async {
-    final log = recordHTML
-        ? HTMLModifier.convertMapToDiv(
-            timestamp: timestamp,
-            text: text,
-            logData: logData,
-          )
-        : "$timestamp $text ${logData.toString()}";
+    final textLog = "$timestamp $text ${logData.toString()}";
     if (exported) {
       logs.add(HTMLModifier.htmlFileHeaders);
     }
-    logs.add(log);
+    logs.add(
+      recordHTML
+          ? HTMLModifier.convertMapToDiv(
+              timestamp: timestamp,
+              text: text,
+              logData: logData,
+            )
+          : textLog,
+    );
+    log("NDLogs::$textLog");
   }
 }

@@ -13,12 +13,13 @@ class _NDLogger {
       if (recordHTML) {
         _webLogger.openLogFile("abra-kadabra.${recordHTML ? "html" : "txt"}");
       }
+      log("NDLogs::initialised.");
       return;
     }
     final logFilePath = await getLogFilePath(recordHTML: recordHTML);
     await Isolate.spawn(_isolateMethod, [receivePort.sendPort, logFilePath]);
     _sendPort = (await receivePort.first) as SendPort;
-    debugPrint("NDLogs::initialised.\nLog file at $logFilePath");
+    log("NDLogs::initialised.\nLog file at $logFilePath");
   }
 
   Future<String> getLogFilePath({
