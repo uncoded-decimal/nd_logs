@@ -1,8 +1,7 @@
-library nd_logs;
-
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:nd_logs/base/log_types.dart';
 import 'package:nd_logs/base/log_writer.dart';
 import 'package:nd_logs/src/text_logging/html_modifier.dart';
 
@@ -34,6 +33,7 @@ class TextLogger extends LogWriter {
     required String text,
     required String timestamp,
     required Map<String, String> logData,
+    required LogType logType,
     bool exported = false,
   }) async {
     if (_fileSink == null) {
@@ -41,12 +41,13 @@ class TextLogger extends LogWriter {
       await openLogFile(logFilePath);
       return;
     }
-    String log = "$timestamp  $text  ${logData.toString()}";
+    String log = "$timestamp ${logType.name}  $text  ${logData.toString()}";
     if (recordHTML) {
       log = HTMLModifier.convertMapToDiv(
         timestamp: timestamp,
         text: text,
         logData: logData,
+        logType: logType,
       );
       if (exported) {
         _fileSink!.writeln(HTMLModifier.htmlFileHeaders);

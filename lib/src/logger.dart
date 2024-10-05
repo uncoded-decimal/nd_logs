@@ -38,6 +38,7 @@ class _NDLogger {
     bool exported,
     Map<String, String> params,
     DateFormat dateFormat,
+    LogType logType,
   ) async {
     if (kIsWeb) {
       await _webLogger.writeToLogFile(
@@ -47,6 +48,7 @@ class _NDLogger {
         text: text,
         timestamp: dateFormat.format(DateTime.now()),
         logData: params,
+        logType: logType,
       );
       return;
     }
@@ -60,6 +62,7 @@ class _NDLogger {
       recordHTML,
       exported,
       dateFormat,
+      logType,
     ]);
   }
 
@@ -101,6 +104,7 @@ class _NDLogger {
           final exported = (data[3] as bool?) ?? false;
           final dateFormat =
               (data[4] as DateFormat?) ?? DateFormat("dd-MMMM-yyyy hh:mm:ss a");
+          final logType = (data[5] as LogType?) ?? LogType.verbose;
           debugPrint("NDLogs::$message for $params");
           logger.writeToLogFile(
             logFilePath: logFilePath,
@@ -109,6 +113,7 @@ class _NDLogger {
             text: message,
             timestamp: dateFormat.format(DateTime.now()),
             exported: exported,
+            logType: logType,
           );
         }
       });

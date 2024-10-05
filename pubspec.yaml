@@ -1,6 +1,6 @@
 name: nd_logs
-description: "A logging solution built entirely in Dart."
-version: 0.0.1
+description: "A simple logging solution built entirely in Dart. Supports logging for web applications as well as others."
+version: 0.0.2
 homepage: https://github.com/uncoded-decimal/nd_logs
 
 environment:
@@ -19,6 +19,11 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 flutter:
+
+platforms:
+  android:
+  ios:
+  web:
 
 topics:
   - logging

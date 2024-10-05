@@ -1,13 +1,27 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:nd_logs/base/log_types.dart';
 import 'package:nd_logs/nd_logs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NDLogs.setupLogger(recordHTML: true);
-  runApp(const MyApp());
+  runZonedGuarded(
+    () => runApp(const MyApp()),
+    (error, stack) async {
+      await NDLogs.logErrorWithStacktrace(
+        error,
+        stack,
+        paramsTracking: {
+          "name": "Andi",
+          "counter": "Unable to comply",
+        },
+      );
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -87,6 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _exportLogs() async {
+    await NDLogs.logThis(
+      "Exporting Logs",
+      logType: LogType.warning,
+    );
     final path = await NDLogs.exportLogFile();
     debugPrint("File found at $path");
     final content = await File(path).readAsString();

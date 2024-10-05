@@ -33,7 +33,6 @@ await NDLogs.clearLogs();
 
 ## Future Plans
 
-- Add more detailed log support for various Log Types
 - Add better ui to HTML log file
 
 Feel free to suggest/ request features as you may desire. However, I'll work on them as I get to them.

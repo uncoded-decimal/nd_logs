@@ -1,3 +1,5 @@
+import 'package:nd_logs/base/log_types.dart';
+
 class HTMLModifier {
   static String get htmlFileHeaders => '''
 <!DOCTYPE html>
@@ -29,13 +31,15 @@ class HTMLModifier {
     required String timestamp,
     required String text,
     required Map<String, String> logData,
+    required LogType logType,
   }) {
     return '''
 <div>    
     <table>
-        <tr style="background-color: #f2f2f2;">
+        <tr style="background-color: #${logType.htmlLogColour};">
             <td style="width: 10%; text-align: left;">$timestamp</td>
-            <td style="width: 60%; text-align: left;">$text</td>
+            <td style="width: 10%; text-align: left;">${logType.name}</td>
+            <td style="width: 50%; text-align: left;">$text</td>
             <td style="width: 30%; text-align: left;">
               <ul>
               ${logData.entries.map((e) => '''<li>${e.key}: ${e.value}</li>''').join("")}

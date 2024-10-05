@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:nd_logs/base/log_types.dart';
 import 'package:nd_logs/base/log_writer.dart';
 import 'package:nd_logs/src/text_logging/html_modifier.dart';
 import 'dart:html' as html;
@@ -43,9 +44,10 @@ class WebLogger implements LogWriter {
     required bool exported,
     required String text,
     required String timestamp,
+    required LogType logType,
     required Map<String, String> logData,
   }) async {
-    final textLog = "$timestamp $text ${logData.toString()}";
+    final textLog = "$timestamp ${logType.name} $text ${logData.toString()}";
     if (exported) {
       logs.add(HTMLModifier.htmlFileHeaders);
     }
@@ -55,6 +57,7 @@ class WebLogger implements LogWriter {
               timestamp: timestamp,
               text: text,
               logData: logData,
+              logType: logType,
             )
           : textLog,
     );
